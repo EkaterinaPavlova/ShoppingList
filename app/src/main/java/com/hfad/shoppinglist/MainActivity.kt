@@ -1,9 +1,10 @@
 package com.hfad.shoppinglist
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import com.hfad.shoppinglist.databinding.ActivityMainBinding
@@ -48,6 +49,17 @@ class MainActivity : AppCompatActivity() {
         binding.buttonAddItem.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             startActivityForResult(intent, TEXT_REQUEST)
+        }
+
+        binding.buttonSearchStore.setOnClickListener {
+            val shop = binding.locateStore.toString()
+            val locShop = Uri.parse("geo:0,0?q=$shop")
+            val intent = Intent(Intent.ACTION_VIEW, locShop)
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                Log.d("MainActivity", "Can't handle this!")
+            }
         }
 
     }
